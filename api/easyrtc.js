@@ -225,12 +225,12 @@ var Easyrtc = function() {
     var sdpLocalFilter = null,
             sdpRemoteFilter = null;
     var iceCandidateFilter = null;
-    
+
     var connectionOptions =  {
                 'connect timeout': 10000,
                 'force new connection': true
             };
-   
+
     /**
      * Sets functions which filter sdp records before calling setLocalDescription or setRemoteDescription.
      * This is advanced functionality which can break things, easily. See the easyrtc_rates.js file for a
@@ -246,9 +246,9 @@ var Easyrtc = function() {
    /**
     * Sets a function which filters IceCandidate records being sent or received.
     *
-    * Candidate records can be received while they are being generated locally (before being 
-    * sent to a peer), and after they are received by the peer. The filter receives two arguments, the candidate record and a boolean 
-    * flag that is true for a candidate being received from another peer,  
+    * Candidate records can be received while they are being generated locally (before being
+    * sent to a peer), and after they are received by the peer. The filter receives two arguments, the candidate record and a boolean
+    * flag that is true for a candidate being received from another peer,
     * and false for a candidate that was generated locally. The candidate record has the form:
     *  {type: 'candidate', label: sdpMLineIndex, id: sdpMid, candidate: candidateString}
     * The function should return one of the following: the input candidate record, a modified candidate record, or null (indicating that the
@@ -262,7 +262,7 @@ var Easyrtc = function() {
     /**
      * Controls whether a default local media stream should be acquired automatically during calls and accepts
      * if a list of streamNames is not supplied. The default is true, which mimics the behaviour of earlier releases
-     * that didn't support multiple streams. This function should be called before easyrtc.call or before entering an 
+     * that didn't support multiple streams. This function should be called before easyrtc.call or before entering an
      * accept  callback.
      * @param {Boolean} flag true to allocate a default local media stream.
      */
@@ -295,9 +295,9 @@ var Easyrtc = function() {
      * @return true if the socket exists and is connected, false otherwise.
     */
     function isSocketConnected(socket) {
-       return (socket && 
+       return (socket &&
               ( ( socket.socket && socket.socket.connected)
-                || socket.connected )); 
+                || socket.connected ));
     }
 
 
@@ -306,7 +306,7 @@ var Easyrtc = function() {
 //
 // Maps a key to a language specific string using the easyrtc_constantStrings map.
 // Defaults to the key if the key can not be found, but outputs a warning in that case.
-// This function is only used internally by easyrtc.js 
+// This function is only used internally by easyrtc.js
 //
     /**
      * @private
@@ -331,8 +331,8 @@ var Easyrtc = function() {
     //
     // A map of eventListeners. The key is the event type.
     var eventListeners = {};
-    /** This function checks if an attempt was made to add an event listener or 
-     * or emit an unlisted event, since such is typically a typo. 
+    /** This function checks if an attempt was made to add an event listener or
+     * or emit an unlisted event, since such is typically a typo.
      * @private
      * @param {String} eventName
      * @param {String} callingFunction the name of the calling function.
@@ -352,7 +352,7 @@ var Easyrtc = function() {
      * Adds an event listener for a particular type of event.
      * Currently the only eventName supported is "roomOccupant".
      * @param {String} eventName the type of the event
-     * @param {Function} eventListener the function that expects the event. 
+     * @param {Function} eventListener the function that expects the event.
      * The eventListener gets called with the eventName as it's first argument, and the event
      * data as it's second argument.
      * @returns {void}
@@ -373,7 +373,7 @@ var Easyrtc = function() {
         eventListeners[eventName][eventListeners[eventName].length] = eventListener;
     };
     /**
-     * Removes an event listener. 
+     * Removes an event listener.
      * @param {String} eventName
      * @param {Function} eventListener
      */
@@ -489,7 +489,7 @@ var Easyrtc = function() {
      * Gets a list of the available audio sources (ie, cameras)
      * @param {Function} callback receives list of {label:String, id:String, kind:"audio"}
      * Note: the label string always seems to be the empty string if you aren't using https.
-     * Note: not supported by Firefox. 
+     * Note: not supported by Firefox.
      * @example  easyrtc.getAudioSourceList( function(list) {
      *               var i;
      *               for( i = 0; i < list.length; i++ ) {
@@ -505,7 +505,7 @@ var Easyrtc = function() {
      * Gets a list of the available video sources (ie, cameras)
      * @param {Function} callback receives list of {facing:String, label:String, id:String, kind:"video"}
      * Note: the label string always seems to be the empty string if you aren't using https.
-     * Note: not supported by Firefox. 
+     * Note: not supported by Firefox.
      * @example  easyrtc.getVideoSourceList( function(list) {
      *               var i;
      *               for( i = 0; i < list.length; i++ ) {
@@ -546,7 +546,7 @@ var Easyrtc = function() {
     /** @private */
     var credential = null;
     /** The rooms the user is in. This only applies to room oriented applications and is set at the same
-     * time a token is received. 
+     * time a token is received.
      */
     this.roomJoin = {};
     /** Checks if the supplied string is a valid user name (standard identifier rules)
@@ -712,8 +712,8 @@ var Easyrtc = function() {
     };
     /** This function requests that screen capturing be used to provide the local media source
      * rather than a webcam. If you have multiple screens, they are composited side by side.
-     * Note: this functionality is not supported by Firefox, has to be called before calling initMediaSource (or easyApp), we don't currently supply a way to 
-     * turn it off (once it's on), only works if the website is hosted SSL (https), and the image quality is rather 
+     * Note: this functionality is not supported by Firefox, has to be called before calling initMediaSource (or easyApp), we don't currently supply a way to
+     * turn it off (once it's on), only works if the website is hosted SSL (https), and the image quality is rather
      * poor going across a network because it tries to transmit so much data. In short, screen sharing
      * through WebRTC isn't worth using at this point, but it is provided here so people can try it out.
      * @example
@@ -966,7 +966,7 @@ var Easyrtc = function() {
      * This function gets the statistics for a particular peer connection.
      * @param {String} easyrtcid
      * @param {Function} callback gets the easyrtcid for the peer and a map of {userDefinedKey: value}. If there is no peer connection to easyrtcid, then the map will
-     *  have a value of {connected:false}. 
+     *  have a value of {connected:false}.
      * @param {Object} filter depends on whether Chrome or Firefox is used. See the default filters for guidance.
      * It is still experimental.
      */
@@ -992,7 +992,7 @@ var Easyrtc = function() {
                 var srcKey;
                 //
                 // the stats objects has a group of entries. Each entry is either an rtcp, rtp entry
-                // or a candidate entry. 
+                // or a candidate entry.
                 //
                 stats.forEach(function(entry) {
                     var majorKey;
@@ -1015,14 +1015,14 @@ var Easyrtc = function() {
                     }
                     else {
                         if( entry.hasOwnProperty("ipAddress") && entry.hasOwnProperty("id")) {
-                            candidates[entry.id] = entry.ipAddress + ":" + 
+                            candidates[entry.id] = entry.ipAddress + ":" +
                                   entry.portNumber;
                         }
-                        else if( entry.hasOwnProperty("selected") && 
-                                 entry.hasOwnProperty("remoteCandidateId") && 
+                        else if( entry.hasOwnProperty("selected") &&
+                                 entry.hasOwnProperty("remoteCandidateId") &&
                                  entry.selected ) {
                             activeId =  entry.remoteCandidateId;
-                        } 
+                        }
                     }
                 });
 
@@ -1094,7 +1094,7 @@ var Easyrtc = function() {
                         }
 
                         //
-                        // a chrome-firefox connection results in several activeConnections. 
+                        // a chrome-firefox connection results in several activeConnections.
                         // we only want one, so we look for the one with the most data being received on it.
                         //
                         if (partNames[i].googRemoteAddress && partNames[i].googActiveConnection) {
@@ -1589,7 +1589,7 @@ var Easyrtc = function() {
     }
 
     /**
-      * Allow an externally created mediastream (ie, created by another 
+      * Allow an externally created mediastream (ie, created by another
       * library) to be used within easyrtc. Tracking when it closes
       * must be done by the supplying party.
       */
@@ -1626,12 +1626,12 @@ var Easyrtc = function() {
             }
             //
             // a stream from chrome to firefox will be missing it's id/label.
-            // there is no correct solution. 
+            // there is no correct solution.
             //
             if( isFirefox ) {
                // if there is a stream called default, return it in preference
                if( mediaIds["default"] ) {
-                   return "default"; 
+                   return "default";
                }
                //
                // otherwise return the first name we find. If there is more than
@@ -1838,7 +1838,7 @@ var Easyrtc = function() {
     this.buildLocalMediaStream = function(streamName, audioTracks, videoTracks) {
         var i;
         if (typeof streamName !== 'string') {
-            easyrtc.showError(this.errCodes.DEVELOPER_ERR, 
+            easyrtc.showError(this.errCodes.DEVELOPER_ERR,
                "easyrtc.buildLocalMediaStream not supplied a stream name");
             return null;
         }
@@ -1859,13 +1859,13 @@ var Easyrtc = function() {
             }
          }
          if( !streamToClone ){
-            self.showError(self.errCodes.DEVELOPER_ERR, 
+            self.showError(self.errCodes.DEVELOPER_ERR,
              "Attempt to create a mediastream without one to clone from");
             return null;
          }
 
          //
-         // clone whatever mediastream we found, and remove any of it's 
+         // clone whatever mediastream we found, and remove any of it's
          // tracks.
          //
          var mediaClone = streamToClone.clone();
@@ -1965,7 +1965,7 @@ var Easyrtc = function() {
      * not granting permission.
      * If you are going to call easyrtc.enableAudio or easyrtc.enableVideo, you need to do it before
      * calling easyrtc.initMediaSource.
-     * @param {function(Object)} successCallback - will be called with localmedia stream on success. 
+     * @param {function(Object)} successCallback - will be called with localmedia stream on success.
      * @param {function(String,String)} errorCallback - is called with an error code and error description.
      * @param {String} streamName - an optional name for the media source so you can use multiple cameras and screen share simultaneously.
      * @example
@@ -2152,7 +2152,7 @@ var Easyrtc = function() {
     };
     /**
      * Sets the callback used to decide whether to accept or reject an incoming call.
-     * @param {Function} acceptCheck takes the arguments (callerEasyrtcid, acceptor).     
+     * @param {Function} acceptCheck takes the arguments (callerEasyrtcid, acceptor).
      * The acceptCheck callback is passed an easyrtcid and an acceptor function. The acceptor function should be called with either
      * a true value (accept the call) or false value( reject the call) as it's first argument, and optionally,
      * an array of local media streamNames as a second argument.
@@ -2162,7 +2162,7 @@ var Easyrtc = function() {
      *              acceptor(true);
      *           }
      *           else if( easyrtc.idToName(easyrtcid) === 'Barney' ){
-     *              setTimeout( function(){ 
+     *              setTimeout( function(){
      acceptor(true, ['myOtherCam']); // myOtherCam presumed to a streamName
      }, 10000);
      *           }
@@ -2343,7 +2343,7 @@ var Easyrtc = function() {
      * pages from a regular web server, but the EasyRTC library can still reach the
      * socket server.
      * @param {String} socketUrl
-     * @param {Object} options an optional dictionary of options for socket.io's connect method. 
+     * @param {Object} options an optional dictionary of options for socket.io's connect method.
      * The default is {'connect timeout': 10000,'force new connection': true }
      * @example
      *     easyrtc.setSocketUrl(":8080", options);
@@ -2770,9 +2770,11 @@ var Easyrtc = function() {
      */
     this.sendDataP2P = function(destUser, msgType, msgData) {
 
-        var flattenedData = JSON.stringify({msgType: msgType, msgData: msgData});
+        // var flattenedData = JSON.stringify({msgType: msgType, msgData: msgData});
+        var flattenedData = msgData;
         if (self.debugPrinter) {
-            self.debugPrinter("sending p2p message to " + destUser + " with data=" + JSON.stringify(flattenedData));
+            // self.debugPrinter("sending p2p message to " + destUser + " with data=" + JSON.stringify(flattenedData));
+            self.debugPrinter("sending p2p message to " + destUser + " with data=" + flattenedData.length);
         }
 
         if (!peerConns[destUser]) {
@@ -3338,7 +3340,7 @@ var Easyrtc = function() {
     //
     this.setPeerListener(function(easyrtcid, msgType, msgData) {
         if (!peerConns[easyrtcid] || !peerConns[easyrtcid].pc) {
-            easyrtc.showError(self.errCodes.DEVELOPER_ERR, 
+            easyrtc.showError(self.errCodes.DEVELOPER_ERR,
                   "Attempt to add additional stream before establishing the base call.");
         }
         else {
@@ -3352,12 +3354,12 @@ var Easyrtc = function() {
                    }
                    function onSignalSuccess() {
                    }
-   
+
                    function onSignalFailure(errorCode, errorText) {
                        delete peerConns[easyrtcid];
                        self.showError(errorCode, errorText);
                    }
-   
+
                    sendSignalling(easyrtcid, "answer", sessionDescription,
                            onSignalSuccess, onSignalFailure);
                    peerConns[easyrtcid].connectionAccepted = true;
@@ -3389,7 +3391,7 @@ var Easyrtc = function() {
                 if (sdpRemoteFilter) {
                     sdp.sdp = sdpRemoteFilter(sdp.sdp);
                 }
-                pc.setRemoteDescription(new RTCSessionDescription(sdp), 
+                pc.setRemoteDescription(new RTCSessionDescription(sdp),
                    invokeCreateAnswer, function(message) {
                     self.showError(self.errCodes.INTERNAL_ERR, "set-remote-description: " + message);
                 });
@@ -3411,7 +3413,7 @@ var Easyrtc = function() {
                 sdp.sdp = sdpRemoteFilter(sdp.sdp);
             }
             var pc = peerConns[easyrtcid].pc;
-            pc.setRemoteDescription(new RTCSessionDescription(sdp), function(){}, 
+            pc.setRemoteDescription(new RTCSessionDescription(sdp), function(){},
                     function(message) {
                        self.showError(self.errCodes.INTERNAL_ERR, "set-remote-description: " + message);
                     });
@@ -3439,7 +3441,7 @@ var Easyrtc = function() {
                     peerConns[easyrtcid].pc.removeStream(stream);
                  } catch( err) {}
             }
-           
+
         }
     }
 
@@ -3587,13 +3589,13 @@ var Easyrtc = function() {
                        if( !candidateData ) {
                           return;
                        }
-                    } 
+                    }
                     //
-                    // some candidates include ip addresses of turn servers. we'll want those 
+                    // some candidates include ip addresses of turn servers. we'll want those
                     // later so we can see if our actual connection uses a turn server.
-                    // The keyword "relay" in the candidate identifies it as referencing a 
+                    // The keyword "relay" in the candidate identifies it as referencing a
                     // turn server. The \d symbol in the regular expression matches a number.
-                    // 
+                    //
                     if (event.candidate.candidate.indexOf("typ relay") > 0) {
                         var ipAddress = event.candidate.candidate.match(/(udp|tcp) \d+ (\d+\.\d+\.\d+\.\d+)/i)[2];
                         self._turnServers[ipAddress] = true;
@@ -3693,12 +3695,16 @@ var Easyrtc = function() {
                 // Chrome and Firefox Interop is passing a event with a strange data="", perhaps
                 // as it's own form of priming message. Comparing the data against "" doesn't
                 // work, so I'm going with parsing and trapping the parse error.
-                // 
+                //
                 try {
-                    var msg = JSON.parse(event.data);
+                    var msg = event.data
                     if (msg) {
-                        self.receivePeerDistribute(otherUser, msg, null);
+                        self.receivePeerDistributeOneListener(otherUser, msg, null);
                     }
+                    //var msg = JSON.parse(event.data);
+                    //if (msg) {
+                    //    self.receivePeerDistribute(otherUser, msg, null);
+                    //}
                 }
                 catch (err) {
                 }
@@ -3784,7 +3790,7 @@ var Easyrtc = function() {
         var doDataChannels = dataEnabled;
         if (doDataChannels) {
 
-            // check if both sides have the same browser and versions 
+            // check if both sides have the same browser and versions
         }
 
         if (doDataChannels) {
@@ -4031,9 +4037,19 @@ var Easyrtc = function() {
         return false;
     }
 
+    this.receivePeerDistributeOneListener = function (easyrtcid, msg, targeting) {
+
+            //console.log("receiving P2P one listener" + msg.byteLength )
+
+            if (receivePeer.cb) {
+                receivePeer.cb(easyrtcid, "a", msg, targeting);
+            }
+    };
+
+
     /**
       * Checks to see if a particular peer is present in any room.
-      * If it isn't, we assume it's logged out. 
+      * If it isn't, we assume it's logged out.
       * @param easyrtcid the easyrtcId of the peer.
       */
     this.isPeerInAnyRoom = function(easyrtcid) {
@@ -4129,7 +4145,7 @@ var Easyrtc = function() {
     function processOccupantList(roomName, occupantList) {
         var myInfo = null;
         var reducedList = {};
-        
+
         var id;
         for (id in occupantList) {
             if (occupantList.hasOwnProperty(id)) {
@@ -4219,7 +4235,7 @@ var Easyrtc = function() {
                if( !msgData ) {
                   return;
                }
-            } 
+            }
 
             if (window.mozRTCIceCandidate) {
                 candidate = new mozRTCIceCandidate({
@@ -4237,7 +4253,7 @@ var Easyrtc = function() {
 
             function iceAddSuccess() {}
             function iceAddFailure(domError) {
-                easyrtc.showError(self.errCodes.ICECANDIDATE_ERR, "bad ice candidate (" + domError.name + "): " + 
+                easyrtc.showError(self.errCodes.ICECANDIDATE_ERR, "bad ice candidate (" + domError.name + "): " +
                     JSON.stringify(candidate));
             }
             pc.addIceCandidate(candidate, iceAddSuccess, iceAddFailure);
@@ -4463,7 +4479,7 @@ var Easyrtc = function() {
             try {
                self.webSocket = io.connect(serverPath, connectionOptions);
             } catch(socketErr) {
-               errorCallback( self.errCodes.SYSTEM_ERROR, 
+               errorCallback( self.errCodes.SYSTEM_ERROR,
                      socketError.toString());
                return;
             }
@@ -4853,7 +4869,7 @@ var Easyrtc = function() {
         if (!window.createIceServer) {
             return;
         }
-       if( !iceConfig || !iceConfig.iceServers || 
+       if( !iceConfig || !iceConfig.iceServers ||
               typeof iceConfig.iceServers.length === "undefined" ) {
             self.showError(self.errCodes.DEVELOPER_ERR, "iceConfig received from server didn't have an array called iceServers, ignoring it");
               iceConfig = { iceServers:[]};
@@ -4939,7 +4955,7 @@ var Easyrtc = function() {
     function sendAuthenticate(successCallback, errorCallback) {
         //
         // find our easyrtcsid
-        //  
+        //
         var cookies, target, i;
         var easyrtcsid = null;
         if (self.cookieId && document.cookie) {
@@ -5110,7 +5126,7 @@ var Easyrtc = function() {
             videoIdToCallerMap[videoObject.id] = callerEasyrtcId;
         }
 
-        easyrtc.addEventListener("roomOccupants", 
+        easyrtc.addEventListener("roomOccupants",
             function(eventName, eventData) {
                 var i;
                 for (i = 0; i < numPEOPLE; i++) {
@@ -5140,7 +5156,7 @@ var Easyrtc = function() {
             document.getElementById(monitorVideoId).muted = "muted";
         }
 
-        /** Sets an event handler that gets called when an incoming MediaStream is assigned 
+        /** Sets an event handler that gets called when an incoming MediaStream is assigned
          * to a video object. The name is poorly chosen and reflects a simpler era when you could
          * only have one media stream per peer connection.
          * @param {Function} cb has the signature function(easyrtcid, slot){}
@@ -5482,5 +5498,5 @@ var easyrtc_constantStrings = {
   "statsNotSupported":"call statistics not supported by this browser, try Chrome.",
    "noWebrtcSupport":"Your browser doesn't appear to support WebRTC.",
    "gumFailed":"Failed to get access to local media. Error code was {0}.",
-   "requireAudioOrVideo":"At least one of audio and video must be provided"   
+   "requireAudioOrVideo":"At least one of audio and video must be provided"
 };
