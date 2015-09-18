@@ -1098,10 +1098,12 @@ var Easyrtc = function() {
                         // we only want one, so we look for the one with the most data being received on it.
                         //
                         if (partNames[i].googRemoteAddress && partNames[i].googActiveConnection) {
-                            hasActive = parts[i].local.stat("googActiveConnection");
+                            var partLoc = parts[i]
+                            console.log(partLoc)
+                            hasActive = partLoc.stat("googActiveConnection");
                             if (hasActive === true || hasActive === "true") {
-                                curReceived = parseInt(parts[i].local.stat("bytesReceived")) +
-                                        parseInt(parts[i].local.stat("bytesSent"));
+                                curReceived = parseInt(parts[i].stat("bytesReceived")) +
+                                        parseInt(parts[i].stat("bytesSent"));
                                 if (curReceived > bestBytes) {
                                     bestI = i;
                                     bestBytes = curReceived;
@@ -1119,8 +1121,8 @@ var Easyrtc = function() {
                                 partNames[i] = {};
                             }
                             else {
-                                localAddress = parts[i].local.stat("googLocalAddress").split(":")[0];
-                                remoteAddress = parts[i].local.stat("googRemoteAddress").split(":")[0];
+                                localAddress = parts[i].stat("googLocalAddress").split(":")[0];
+                                remoteAddress = parts[i].stat("googRemoteAddress").split(":")[0];
                                 if (self.isTurnServer(localAddress)) {
                                     turnAddress = localAddress;
                                 }
@@ -1150,11 +1152,11 @@ var Easyrtc = function() {
                         if (partList.length === 1) {
                             for (j = 0; j < partList.length; j++) {
                                 part = partList[j];
-                                if (part.local) {
+                                if (part) {
                                     for (itemKey in itemKeys) {
                                         if (itemKeys.hasOwnProperty(itemKey)) {
                                             userKey = itemKeys[itemKey];
-                                            localStats[userKey] = part.local.stat(itemKey);
+                                            localStats[userKey] = part.stat(itemKey);
                                         }
                                     }
                                 }
@@ -1168,11 +1170,11 @@ var Easyrtc = function() {
                             }
                             for (j = 0; j < partList.length; j++) {
                                 part = partList[j];
-                                if (part.local) {
+                                if (part) {
                                     for (itemKey in itemKeys) {
                                         if (itemKeys.hasOwnProperty(itemKey)) {
                                             userKey = itemKeys[itemKey];
-                                            localStats[userKey].push(part.local.stat(itemKey));
+                                            localStats[userKey].push(part.stat(itemKey));
                                         }
                                     }
                                 }
@@ -1180,6 +1182,8 @@ var Easyrtc = function() {
                         }
                     }
                 }
+
+                console.log("STATS"+localStats)
 
                 if (localStats.remoteAddress && turnAddress) {
                     localStats.remoteAddress = turnAddress;
@@ -1223,6 +1227,7 @@ var Easyrtc = function() {
         },
         {
             "googRemoteAddress": "remoteAddress",
+            "googLocalAddress": "localAddress",
             "googActiveConnection": "activeConnection"
         },
         {
